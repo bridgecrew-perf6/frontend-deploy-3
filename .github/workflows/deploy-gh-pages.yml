@@ -1,0 +1,30 @@
+name: Deploy Github Actions
+
+on:
+  push:
+    branches:
+      - main  # default branch
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest # versão do sistema operacional
+    steps:
+      - uses: actions/checkout@v2 # baixar arquivos do repositório
+      - name: Use Node.js 16.x  # configurar executaveis npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Cache NPM dependencies # baixando/subindo um cache para adiantar o processo
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - run: npm install # instalando dependencias
+      - run: npm run build # construindo a aplicação
+      - name: Deploy # criando uma branch ou atualizando a branch gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages 
+          folder: ./build # pasta com os assets e estaticos
