@@ -24,7 +24,7 @@ jobs:
       - run: npm install # instalando dependencias
       - run: npm run build # construindo a aplicação
         env:
-          PUBLIC_URL: frontend-deploy
+          PUBLIC_URL: /frontend-deploy
       - name: Deploy # criando uma branch ou atualizando a branch gh-pages
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
