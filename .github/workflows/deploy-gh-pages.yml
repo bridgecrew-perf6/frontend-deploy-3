@@ -1,14 +1,14 @@
 name: Deploy Github Actions
 
 on:
-  push:
+  push: # ação que ira acionar o github actions
     branches:
-      - main  # default branch
+      - main  # branch que será excutado o github actions
 
 jobs:
   pages:
     runs-on: ubuntu-latest # versão do sistema operacional
-    steps:
+    steps: # sequencia de passos que serão executados
       - uses: actions/checkout@v2 # baixar arquivos do repositório
       - name: Use Node.js 16.x  # configurar executaveis npm
         uses: actions/setup-node@v2
@@ -23,6 +23,8 @@ jobs:
             ${{ runner.OS }}-npm-cache
       - run: npm install # instalando dependencias
       - run: npm run build # construindo a aplicação
+        env:
+          PUBLIC_URL: frontend-deploy
       - name: Deploy # criando uma branch ou atualizando a branch gh-pages
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
